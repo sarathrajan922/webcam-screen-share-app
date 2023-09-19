@@ -4,6 +4,7 @@ import ConfigKey from "./config";
 import morgan from "morgan";
 import connectDB from "./database/connection";
 import router from "./routes";
+import errorHandleMiddleware from "./middleware/errorHandleMiddleware";
 const app: Application = express();
 
 app.use(express.json());
@@ -19,3 +20,4 @@ sever.listen(PORT, () => {
 router(app);
 
 connectDB();
+app.use(errorHandleMiddleware);
