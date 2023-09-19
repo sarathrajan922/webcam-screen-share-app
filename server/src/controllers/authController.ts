@@ -1,9 +1,8 @@
-import express, { Request, Response } from "express";
-const authRouter = express.Router();
+import {Request,Response} from 'express';
 
-authRouter.get("/", (req: Request, res: Response) => {
-  console.log(req.url);
-  res.send("this is authRouter...");
-});
+  export const  userSignup = (req:Request,res:Response)=>{
+    console.log(req.url);
+    res.send('api hit authcontroller...')
+   }
 
-export default authRouter;
+
