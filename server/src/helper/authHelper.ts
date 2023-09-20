@@ -10,17 +10,19 @@ const authHelper = () => {
   };
 
   const userRegister = async (userData: UserDataInterface) => {
-    const result = UserModel.create(userData);
     const obj = {
       email: userData.email,
       role: "user",
     };
-    console.log(result)
-    const token = jwtTokens.generateToken(obj)
-    console.log(token)
-    return token
+    const token = jwtTokens.generateToken(obj);
+    const userExist = await getUserByEmail(userData.email);
+    if (userExist.length) {
+      return token;
+    }
+    UserModel.create(userData);
+    return token;
   };
- 
+
   return {
     getUserByEmail,
     userRegister,
