@@ -1,8 +1,15 @@
-import {Request,Response} from 'express';
+import { Request, Response } from "express";
+import { HttpStatus } from "../types/httpStatus";
+import asyncHandler from "express-async-handler";
 
-  export const  userSignup = (req:Request,res:Response)=>{
-    console.log(req.url);
-    res.send('api hit authcontroller...')
-   }
-
-
+const authController = () => {
+  const userSignup = asyncHandler(async (req: Request, res: Response) => {
+    //call helper function
+    console.log(req.body)
+    res.status(HttpStatus.OK).send("api hit  authController");
+  });
+  return {
+    userSignup,
+  };
+};
+export default authController;
