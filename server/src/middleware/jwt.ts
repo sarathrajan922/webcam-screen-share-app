@@ -5,7 +5,7 @@ interface Payload {
   role: string;
 }
 
-const Jwt_Authentication = () => {
+const jwtAuthentication = () => {
   const generateToken = (payload: Payload) => {
    const token = jwt.sign(payload,ConfigKeys.JWT_SECRET,{expiresIn: "3d"})
     return token;
@@ -21,4 +21,4 @@ const Jwt_Authentication = () => {
   };
 };
 
-export default Jwt_Authentication;
+export default jwtAuthentication;

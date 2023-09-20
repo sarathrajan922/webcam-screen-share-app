@@ -1,8 +1,8 @@
-import Jwt_Authentication from "../middleware/jwt";
+import jwtAuthentication from "../middleware/jwt";
 import UserModel from "../database/model/userModel";
 import { UserDataInterface } from "../types/userData";
 
-const jwtTokens = Jwt_Authentication();
+const jwtTokens = jwtAuthentication();
 const authHelper = () => {
   const getUserByEmail = async (email: string) => {
     const data = await UserModel.find({ email });
