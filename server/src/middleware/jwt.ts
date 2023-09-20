@@ -1,0 +1,24 @@
+import jwt from "jsonwebtoken";
+import ConfigKeys from "../config";
+interface Payload {
+  email: string;
+  role: string;
+}
+
+const Jwt_Authentication = () => {
+  const generateToken = (payload: Payload) => {
+   const token = jwt.sign(payload,ConfigKeys.JWT_SECRET,{expiresIn: "3d"})
+    return token;
+  };
+
+  const verifyToken = (token: string) => {
+    return jwt.verify(token, ConfigKeys.JWT_SECRET);
+  };
+
+  return {
+    generateToken,
+    verifyToken,
+  };
+};
+
+export default Jwt_Authentication;

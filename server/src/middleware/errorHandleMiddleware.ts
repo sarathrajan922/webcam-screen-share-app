@@ -3,9 +3,9 @@ import AppError from "../utils/appError";
 
 const errorHandleMiddleware = (
   err: AppError,
-  req: Request,
+  _req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   console.log(err);
   err.statusCode = err.statusCode || 500;
