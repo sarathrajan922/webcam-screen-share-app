@@ -8,7 +8,6 @@ function App() {
       <div className="App bg-gray-800 text-white">
         <h1 className="text-3xl">WEBCAM RECORDER</h1>
       </div>
-
       <Outlet />
     </>
   );
