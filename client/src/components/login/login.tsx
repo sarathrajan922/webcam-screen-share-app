@@ -2,6 +2,7 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { UserFormData } from "../../types/userInterface";
+import { registerUser } from "../../features/axios/api/user/userAuthentication";
 
 const Login: React.FC = () => {
   const validationSchema = Yup.object({
@@ -18,6 +19,11 @@ const Login: React.FC = () => {
 
   const handleSubmit = (values: UserFormData) => {
     console.log(values);
+  registerUser(values).then((response)=>{
+    console.log(response)
+  }).catch((err)=>{
+    console.log(err.message)
+  })
   };
 
   return (
