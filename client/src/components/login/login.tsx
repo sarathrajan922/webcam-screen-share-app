@@ -3,6 +3,8 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { UserFormData } from "../../types/userInterface";
 import { registerUser } from "../../features/axios/api/user/userAuthentication";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login: React.FC = () => {
   const validationSchema = Yup.object({
@@ -12,6 +14,24 @@ const Login: React.FC = () => {
       .matches(/^[A-Za-z]+$/, "Name must contain only alphabetic characters"),
   });
 
+  const notify = (type: string, message: any) => {
+    console.log(message)
+    if (type === "err") {
+      toast.error(`${message}!`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else {
+        toast(message)
+    }
+  };
+
   const initialValue = {
     email: "",
     name: "",
@@ -19,11 +39,15 @@ const Login: React.FC = () => {
 
   const handleSubmit = (values: UserFormData) => {
     console.log(values);
-  registerUser(values).then((response)=>{
-    console.log(response)
-  }).catch((err)=>{
-    console.log(err.message)
-  })
+    registerUser(values)
+      .then((response) => {
+        notify('success','user logged successfully')
+        localStorage.setItem("userToken", response.userToken);
+        
+      })
+      .catch((err) => {
+        notify('err',err.message)
+      });
   };
 
   return (
@@ -89,6 +113,7 @@ const Login: React.FC = () => {
             </button>
           </Form>
         </Formik>
+        <ToastContainer/>
       </div>
     </div>
   );
