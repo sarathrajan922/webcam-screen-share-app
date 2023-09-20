@@ -8,8 +8,8 @@ const authController = () => {
   const userSignup = asyncHandler(async (req: Request, res: Response) => {
     const result = await authentication.userRegister(req.body);
     res.status(HttpStatus.OK).send({
-        status: HttpStatus.OK,
-        userToken: result
+      status: HttpStatus.OK,
+      userToken: result,
     });
   });
   return {
