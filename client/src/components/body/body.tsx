@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRecordWebcam } from "react-record-webcam";
+import { getUserData } from "../../features/axios/api/user/getUserData";
 
 const Body: React.FC = () => {
   const OPTIONS = {
@@ -8,6 +9,14 @@ const Body: React.FC = () => {
     width: 1920,
     height: 1080,
   };
+
+  const [userData, setUserData] = useState<any>("");
+  const [status, setStatus] = useState<boolean>(false);
+  useEffect(() => {
+    getUserData().then((response) => {
+      setUserData(response);
+    });
+  }, []);
 
   const recordWebcam = useRecordWebcam(OPTIONS);
 
@@ -18,11 +27,25 @@ const Body: React.FC = () => {
           video recorder
         </h2>
         <p>camera status: {recordWebcam.status}</p>
-        <video
-          ref={recordWebcam.webcamRef || recordWebcam.previewRef}
-          autoPlay
-          className="bg-black w-full max-h-[500px] h-auto mb-6"
-        ></video>
+        {!status && (
+          <video
+            ref={recordWebcam.webcamRef}
+            autoPlay
+            className="bg-black w-full max-h-[500px] h-auto mb-6"
+          ></video>
+        )}
+
+        {status && (
+          <video
+            ref={recordWebcam.previewRef}
+            autoPlay
+            className="bg-black w-full max-h-[500px] h-auto mb-6"
+          ></video>
+        )}
+
+        <h2 className="text-lg text-gray-500 uppercase font-light my-4">
+          {userData?.name}
+        </h2>
 
         <div className="flex justify-center items-center -mx-4 mb-8">
           {recordWebcam.status === "CLOSED" ? (
@@ -61,7 +84,10 @@ const Body: React.FC = () => {
           </button>
           {recordWebcam.status === "RECORDING" ? (
             <button
-              onClick={recordWebcam.stop}
+              onClick={() => {
+                recordWebcam.stop();
+                setStatus(true);
+              }}
               type="button"
               className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-xs px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
             >
@@ -73,7 +99,10 @@ const Body: React.FC = () => {
 
           {recordWebcam.status === "PREVIEW" ? (
             <button
-              onClick={recordWebcam.retake}
+              onClick={() => {
+                recordWebcam.retake();
+                setStatus(false);
+              }}
               type="button"
               className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-xs px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
             >
