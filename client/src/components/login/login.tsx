@@ -4,9 +4,11 @@ import * as Yup from "yup";
 import { UserFormData } from "../../types/userInterface";
 import { registerUser } from "../../features/axios/api/user/userAuthentication";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
   const validationSchema = Yup.object({
     email: Yup.string().email("invalid email").required("email is required"),
     name: Yup.string()
@@ -15,7 +17,6 @@ const Login: React.FC = () => {
   });
 
   const notify = (type: string, message: any) => {
-    console.log(message)
     if (type === "err") {
       toast.error(`${message}!`, {
         position: "top-right",
@@ -28,7 +29,7 @@ const Login: React.FC = () => {
         theme: "light",
       });
     } else {
-        toast(message)
+      toast(message);
     }
   };
 
@@ -41,12 +42,14 @@ const Login: React.FC = () => {
     console.log(values);
     registerUser(values)
       .then((response) => {
-        notify('success','user logged successfully')
+        notify("success", "user logged successfully");
         localStorage.setItem("userToken", response.userToken);
-        
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 2000);
       })
       .catch((err) => {
-        notify('err',err.message)
+        notify("err", err.message);
       });
   };
 
@@ -113,7 +116,7 @@ const Login: React.FC = () => {
             </button>
           </Form>
         </Formik>
-        <ToastContainer/>
+        <ToastContainer />
       </div>
     </div>
   );
