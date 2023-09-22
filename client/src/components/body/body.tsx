@@ -122,7 +122,7 @@ const Body: React.FC = () => {
           <video
             ref={recordWebcam.webcamRef}
             autoPlay
-            className="bg-black w-full max-h-[500px] h-auto mb-6"
+            className="bg-black w-full max-h-[500px] h-[400px] mb-6"
           ></video>
         )}
 
@@ -130,7 +130,7 @@ const Body: React.FC = () => {
           <video
             ref={recordWebcam.previewRef}
             autoPlay
-            className="bg-black w-full max-h-[500px] h-auto mb-6"
+            className="bg-black w-full max-h-[500px] h-[400px] mb-6"
           ></video>
         )}
         {/* <video className="w-1/2 h-auto" ref={videoRef} autoPlay></video> */}
