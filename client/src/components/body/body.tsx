@@ -3,6 +3,9 @@ import { useRecordWebcam } from "react-record-webcam";
 import { getUserData } from "../../features/axios/api/user/getUserData";
 import moment from "moment";
 import { uploadScreenVideo } from "../../features/axios/api/user/uploadVideo";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { notify } from "../../common/toastify";
 
 const Body: React.FC = () => {
   const OPTIONS = {
@@ -85,12 +88,14 @@ const Body: React.FC = () => {
       const blob = new Blob(recordedChunks, { type: "video/webm" });
       const data = new FormData();
       data.append("video", blob, "screen-recording.webm");
-      console.log(blob);
-      try{
-
-        await uploadScreenVideo(data)
-      }catch(err:any){
-        console.log(err.message)
+      try {
+        uploadScreenVideo(data).then((response) => {
+          if (response) {
+            notify("success", "your screen video uploaded");
+          }
+        });
+      } catch (err: any) {
+        console.log(err.message);
       }
 
       //here api call ..
@@ -182,7 +187,7 @@ const Body: React.FC = () => {
               viewBox="0 0 20 20"
               fill="currentColor"
               onClick={recordWebcam.close}
-              className="w-8 h-8 ms-2 cursor-pointer"
+              className="w-8 h-8 ms-2 cursor-pointer text-red-400"
             >
               <path d="M1 13.75V7.182L9.818 16H3.25A2.25 2.25 0 011 13.75zM13 6.25v6.568L4.182 4h6.568A2.25 2.25 0 0113 6.25zM19 4.75a.75.75 0 00-1.28-.53l-3 3a.75.75 0 00-.22.53v4.5c0 .199.079.39.22.53l3 3a.75.75 0 001.28-.53V4.75zM2.28 4.22a.75.75 0 00-1.06 1.06l10.5 10.5a.75.75 0 101.06-1.06L2.28 4.22z" />
             </svg>
@@ -214,7 +219,7 @@ const Body: React.FC = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
-                className="w-8 h-8 cursor-pointer ms-2"
+                className="w-8 h-8 cursor-pointer ms-2 text-red-500"
                 onClick={() => {
                   recordWebcam.stop();
                   setStatus(true);
@@ -300,7 +305,7 @@ const Body: React.FC = () => {
                   viewBox="0 0 24 24"
                   stroke-width="1.5"
                   stroke="currentColor"
-                  className="w-8 h-8 cursor-pointer"
+                  className="w-8 h-8 cursor-pointer text-green-500"
                   onClick={startRecording}
                 >
                   <path
@@ -319,7 +324,7 @@ const Body: React.FC = () => {
                   viewBox="0 0 24 24"
                   stroke-width="1.5"
                   stroke="currentColor"
-                  className="w-8 h-8 cursor-pointer"
+                  className="w-8 h-8 cursor-pointer text-red-500"
                   onClick={stopRecording}
                 >
                   <path
@@ -354,9 +359,23 @@ const Body: React.FC = () => {
             </svg>
             <span className="items-center ms-2 p-1">Download</span>
           </div>
-          <button className="bg-green-400 border" onClick={uploadRecord}>upload</button>
+          <div className="flex flex-col justify-center items-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="w-6 h-6 ms-2 cursor-pointer"
+              onClick={uploadRecord}
+            >
+              <path d="M9.25 13.25a.75.75 0 001.5 0V4.636l2.955 3.129a.75.75 0 001.09-1.03l-4.25-4.5a.75.75 0 00-1.09 0l-4.25 4.5a.75.75 0 101.09 1.03L9.25 4.636v8.614z" />
+              <path d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z" />
+            </svg>
+
+            <span className="items-center ms-2 p-1">Upload</span>
+          </div>
         </div>
       </div>
+      <ToastContainer />
     </main>
   );
 };
