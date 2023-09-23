@@ -3,9 +3,10 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { UserFormData } from "../../types/userInterface";
 import { registerUser } from "../../features/axios/api/user/userAuthentication";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { notify } from "../../common/toastify";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -15,23 +16,6 @@ const Login: React.FC = () => {
       .required("name is required")
       .matches(/^[A-Za-z]+$/, "Name must contain only alphabetic characters"),
   });
-
-  const notify = (type: string, message: any) => {
-    if (type === "err") {
-      toast.error(`${message}!`, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    } else {
-      toast(message);
-    }
-  };
 
   const initialValue = {
     email: "",

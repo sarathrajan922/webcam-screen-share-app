@@ -5,6 +5,7 @@ import { CustomRequest } from "../types/customRequest";
 import authHelper from "../helper/authHelper";
 import userHelper from "../helper/userHelper";
 
+
 const authHelpers = authHelper();
 const userHelpers = userHelper();
 
@@ -26,7 +27,13 @@ const userController = () => {
   const uploadVideo = asyncHandler(
     async (req:CustomRequest,res:Response)=>{
       const videoBlob = req.file as Express.Multer.File
-      const result = await userHelpers.screenVideoUpload(videoBlob)
+      
+      
+      const obj = {
+        email: req?.payload?.email ?? '',
+        videoBlob
+      }
+      const result = await userHelpers.screenVideoUpload(obj)
       if(result){
         res.status(HttpStatus.OK).send({
           status: HttpStatus.OK,
