@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useRecordWebcam } from "react-record-webcam";
 import { getUserData } from "../../features/axios/api/user/getUserData";
 import moment from "moment";
+import { uploadScreenVideo } from "../../features/axios/api/user/uploadVideo";
 
 const Body: React.FC = () => {
   const OPTIONS = {
@@ -85,6 +86,12 @@ const Body: React.FC = () => {
       const data = new FormData();
       data.append("video", blob, "screen-recording.webm");
       console.log(blob);
+      try{
+
+        await uploadScreenVideo(data)
+      }catch(err:any){
+        console.log(err.message)
+      }
 
       //here api call ..
     }
@@ -347,7 +354,7 @@ const Body: React.FC = () => {
             </svg>
             <span className="items-center ms-2 p-1">Download</span>
           </div>
-          {/* <button className="bg-green-400" onClick={uploadRecord}>upload</button> */}
+          <button className="bg-green-400 border" onClick={uploadRecord}>upload</button>
         </div>
       </div>
     </main>

@@ -1,6 +1,7 @@
 export const urls = {
     USER_LOGIN_SIGNUP: 'api/auth',
-    GET_USER_DATA:'api/user'
+    GET_USER_DATA:'api/user',
+    UPLOAD_VIDEO:'api/user/upload-video'
 }
 const BASE_URL = 'http://localhost:8080/'
 
