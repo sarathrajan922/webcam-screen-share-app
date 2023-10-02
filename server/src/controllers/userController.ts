@@ -27,8 +27,8 @@ const userController = () => {
   const uploadVideo = asyncHandler(
     async (req:CustomRequest,res:Response)=>{
       const videoBlob = req.file as Express.Multer.File
-      
-      
+
+
       const obj = {
         email: req?.payload?.email ?? '',
         videoBlob
