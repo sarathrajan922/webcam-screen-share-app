@@ -29,7 +29,7 @@ const userHelper = () => {
     const userData = await UserModel.find({ email: data.email });
     const userId = userData[0]._id;
     let videoStorage = await VideoStorageModel.findOne({ userId });
-  
+
 
     if (!videoStorage) {
       videoStorage = new VideoStorageModel({
